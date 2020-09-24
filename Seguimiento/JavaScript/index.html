@@ -8,6 +8,7 @@
     <script src="esBisiesto.js"></script>
     <script src="list_util.js"></script>
     <script src="numerosRomanos.js"></script>
+    <script src="pangrama.js"></script>
   </head>
 
   <body>
@@ -15,29 +16,9 @@
 
     <div>
       <h3>Determinar si una cadena de texto es un pangrama:</h3>
+      <input type="text" id="textString" /><br /><br />
+      <input type="submit" id="enviarCadena" value="Enviar" onclick="determinarPangrama()" />
       <p id="outputPangrama"></p>
-
-      <script>
-        x = esPangrama("abcdefghijklmnñopqrstuvwxyzola");
-        if (x === true) {
-          rta = "La Cadena es un Pangrama";
-        } else {
-          rta = "La Cadena NO es un Pangrama";
-        }
-        document.getElementById("outputPangrama").innerHTML = rta;
-
-        function esPangrama(cadena) {
-          const ALFABETO_MINUSCULAS = "abcdefghijklmnñopqrstuvwxy";
-          cadena = cadena.toLowerCase();
-          let alfabetoComoArreglo = Array.from(ALFABETO_MINUSCULAS);
-
-          for (let indice = 0; indice < alfabetoComoArreglo.length; indice++) {
-            let letraActual = alfabetoComoArreglo[indice];
-            if (!cadena.includes(letraActual)) return false;
-          }
-          return true;
-        }
-      </script>
     </div>
 
     <div>
@@ -45,18 +26,15 @@
         Determinar si un año dado es un año bisiesto en el calendario
         gregoriano.
       </h3>
-
       <label>Ingresa el año:</label>
       <input type="number" id="year_input" /><br /><br />
       <input type="submit" id="submit" value="Enviar" onclick="esBisiesto()" />
-
-      <p><span id="outputYear">----</span></p>
+      <p><span id="outputYear">El año es...</span></p>
     </div>
 
     <div>
-      <h3>Lista en JavaScript</h3>
-      <label for="list"
-        >Ingresa la lista de numeros separadas por comas sin espacios ejm:
+      <h3>Lista que devuelve los elementos repetidos sin cambiar el orden:</h3>
+      <label>Ingresa la lista de numeros separadas por comas sin espacios ejm:
         1,2,3,1,3</label
       ><br />
       <input type="text" id="list_input" /><br /><br />
@@ -66,8 +44,7 @@
         value="Enviar"
         onclick="eliminarElementosUnicos()"
       />
-
-      <p><span id="outputList">----</span></p>
+      <p><span id="outputList">La lista con los números repetidos es...</span></p>
     </div>
 
     <div>
