@@ -25,8 +25,9 @@ let Schema = mongoose.Schema;
 let userSchema = new Schema(
   {
     id: { type: String },
-    userName: { type: String },
-    level: { type: Number, min: 0 },
+    name: { type: String },
+    gender: { type: String},
+    cellphone: { type: String}
   },
   { versionKey: false }
 );
@@ -87,7 +88,7 @@ app.get("/users", function (req, res) {
 /**
  * @swagger
  *
- * /user:
+ * /users:
  *   post:
  *     description: Creates a new user
  *     produces:
@@ -97,7 +98,7 @@ app.get("/users", function (req, res) {
  *         description: User object
  *         in:  body
  *         required: true
- *         type: string *
+ *         type: object
  *     responses:
  *       201:
  *         description: Successfully created
@@ -115,27 +116,33 @@ app.post("/users", (req, res) => {
 
 /**
  * @swagger
- * /user:
- *    put:
- *      description: Update a single user
- *    parameters:
- *      - name: id user
- *        in: body
- *        description: id of user
- *        required: true
- *        schema:
- *          type: string
- *          format: string
- *    responses:
- *      '200':
- *        description: Successfully update
- *      '400':
- *        description: An error ocurred
+ *
+ * /users/{id}:
+ *   put:
+ *     description: Updates a user
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: user
+ *         description: User object
+ *         in:  body
+ *         required: true
+ *         type: object
+ *       - name: id
+ *         description: User id
+ *         in:  path
+ *         required: true
+ *         type: string 
+ *     responses:
+ *       200:
+ *         description: Successfully created
+ *       400:
+ *         description: An error ocurred
  */
 app.put("/users/:id", (req, res) => {
-  let id = req.params.id;
+  let filterId = req.params.id;
   let newUser = req.body;
-  User.findOneAndUpdate({ id }, newUser, (err, user) => {
+  User.update({ _id: filterId }, newUser, (err, user) => {
     if (err) res.status(400).send("Oops! Something went wrong!");
     else res.status(200).send(user);
   });
@@ -143,26 +150,27 @@ app.put("/users/:id", (req, res) => {
 
 /**
  * @swagger
- * /user:
+ * /users/{id}:
  *  delete:
  *    description: Delete a single user
  *    produces:
  *      - application/json
  *    parameters:
  *      - name: id
- *        description: Puppy's id
+ *        description: User's id
  *        in: path
  *        required: true
- *        type: integer
+ *        type: string
  *    responses:
  *      '202':
  *        description: Successfully deleted
  *      '400':
  *        description: An error ocurred
  */
-app.delete("/user", (req, res) => {
-  let filterId = req.body;
-  User.deleteOne(filterId, (err, user) => {
+app.delete("/users/:id", (req, res) => {
+  let filterId = req.params.id;
+  console.log(filterId)
+  User.deleteOne({ _id: filterId }, (err, user) => {
     if (err) res.status(400).send("Oops! Something went wrong!");
     else res.status(202).send(user);
   });
